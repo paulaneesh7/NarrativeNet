@@ -25,7 +25,14 @@ async function main() {
 // middlewares
 server.use(express.json());
 server.use(cookieParser());
-server.use(cors({ origin: "http://localhost:5173", credentials: true })); // To enable CORS
+server.use(
+  cors({
+    origin: process.env.CLIENT_URL, // specify the origin for CORS
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE", // specify the methods for CORS
+    credentials: true, // this allows session cookies to be sent with requests
+    optionsSuccessStatus: 200, // some legacy browsers choke on 204
+  })
+); // To enable CORS
 
 // routes
 server.use("/api/auth", authRouter);
